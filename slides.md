@@ -78,6 +78,59 @@ Here is another comment.
 transition: slide-up
 ---
 
+## 总览
+
+```
+一个 Vue 单文件组件 (SFC)，通常使用 *.vue 作为文件扩展名，
+每一个 *.vue 文件都由三种顶层语言块构成：<template>、<script> 和 <style>，以及一些其他的自定义块
+
+```
+```ts {all|2|1-6|9|all}
+<template>
+  <div class="example">{{ msg }}</div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      msg: 'Hello world!'
+    }
+  }
+}
+</script>
+
+<style>
+.example {
+  color: red;
+}
+</style>
+
+<custom1>
+  This could be e.g. documentation for the component.
+</custom1>
+
+```
+
+<style>
+h2 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  font-size: 22px;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+</style>
+
+---
+layout: image-right
+image: https://source.unsplash.com/collection/94734566/1920x1080
+---
+
 # API 风格
 
 Vue 的组件可以按两种不同的风格书写
@@ -104,7 +157,7 @@ image: https://source.unsplash.com/collection/94734566/1920x1080
 
 ## 选项式 API (Options API)
 
-```ts {all|2|1-6|9|all}
+```ts
 <script>
 export default {
   // data() 返回的属性将会成为响应式的状态  
@@ -146,7 +199,7 @@ image: https://source.unsplash.com/collection/94734566/1920x1080
 ---
 ## 组合式 API (Composition API)
 
-```ts {all|2|1-6|9|all}
+```ts
 interface User {
   id: number
   firstName: string
