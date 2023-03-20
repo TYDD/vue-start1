@@ -41,20 +41,16 @@ transition: fade-out
 
 # What is Vue?
 
-Slidev is a slides maker and presenter designed for developers, consist of the following features
+Vue (发音为 /vjuː/，类似 view) 是一款用于构建用户界面的 JavaScript 框架。它基于标准 HTML、CSS 和 JavaScript 构建，并提供了一套声明式的、组件化的编程模型，帮助你高效地开发用户界面。
 
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - theme can be shared and used with npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embedding Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export into PDF, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - anything possible on a webpage
-
+- 📝 **声明式渲染** - Vue 基于标准 HTML 拓展了一套模板语法，使得我们可以声明式地描述最终输出的 HTML 和 JavaScript 状态之间的关系。
+- 🎨 **响应式编程** - Vue 会自动跟踪 JavaScript 状态并在其发生变化时响应式地更新 DOM。
+- 🛠 **单文件组件SFC（组件化）** - Vue 的单文件组件会将一个组件的逻辑 (JavaScript)，模板 (HTML) 和样式 (CSS) 封装在同一个文件里。实现了封装和重用，且组件间可以相互嵌套。
+- 🧑‍💻 **轻量级** - 相对于其他框架，Vue学习成本低，简单易上手。
+- 🤹 **虚拟 DOM** - 虚拟 dom 中存在 diff算法，是 cpu 密集型运算，占用内存较少，可以提高运行效率，并压缩运行时体积。
+- 📤 **单页面应用（SPA）** - 用户体验好，内容改变时不需要重新加载整个页面，不会进行多个 html 页面间的切换；服务器压力小等。
 <br>
 <br>
-
-Read more about [Why Slidev?](https://sli.dev/guide/why)
 
 <!--
 You can have `style` tag in markdown to override the style for the current page.
@@ -71,6 +67,7 @@ h1 {
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
 }
+
 </style>
 
 <!--
@@ -81,18 +78,16 @@ Here is another comment.
 transition: slide-up
 ---
 
-# Navigation
+# API 风格
 
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/navigation.html)
+Vue 的组件可以按两种不同的风格书写
 
-### Keyboard Shortcuts
+### 选项式 API 和组合式 API
 
 |     |     |
 | --- | --- |
-| <kbd>right</kbd> / <kbd>space</kbd>| next animation or slide |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd> | previous slide |
-| <kbd>down</kbd> | next slide |
+| <kbd>选项式 API (Options API)</kbd> | 选项所定义的属性都会暴露在函数内部的 this 上，它会指向当前的组件实例。 |
+| <kbd>组合式 API (Composition API) </kbd> | 通过组合式 API，可以使用导入的 API 函数来描述组件逻辑。 |
 
 <!-- https://sli.dev/guide/animations.html#click-animations -->
 <img
@@ -107,9 +102,49 @@ layout: image-right
 image: https://source.unsplash.com/collection/94734566/1920x1080
 ---
 
-# Code
+## 选项式 API (Options API)
 
-Use code snippets and get the highlighting directly![^1]
+```ts {all|2|1-6|9|all}
+<script>
+export default {
+  // data() 返回的属性将会成为响应式的状态  
+  // 并且暴露在 `this` 上
+  data() {
+    return { count: 0 }
+  },
+  // methods 是一些用来更改状态与触发更新的函数
+  // 它们可以在模板中作为事件监听器绑定
+  methods: {
+    increment() { this.count++ }
+  },
+  // 生命周期钩子会在组件生命周期的各个不同阶段被调用
+  // 例如这个函数就会在组件挂载完成后被调用
+  mounted() {
+    console.log(`The initial count is ${this.count}.`)
+  }
+}
+</script>
+
+```
+
+<style>
+h2 {
+  background-color: #2B90B6;
+  font-size:22px;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+layout: image-right
+image: https://source.unsplash.com/collection/94734566/1920x1080
+---
+## 组合式 API (Composition API)
 
 ```ts {all|2|1-6|9|all}
 interface User {
@@ -126,19 +161,16 @@ function updateUser(id: number, update: User) {
 }
 ```
 
-<arrow v-click="3" x1="400" y1="420" x2="230" y2="330" color="#564" width="3" arrowSize="1" />
-
-[^1]: [Learn More](https://sli.dev/guide/syntax.html#line-highlighting)
-
 <style>
-.footnotes-sep {
-  @apply mt-20 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
+h2 {
+  background-color: #2B90B6;
+  font-size:22px;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
 }
 </style>
 
