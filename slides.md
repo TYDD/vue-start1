@@ -157,26 +157,62 @@ image: https://source.unsplash.com/collection/94734566/1920x1080
 
 ## 选项式 API (Options API)
 
+-  **状态选项** (data props computed methods watch....)
+-  **渲染选项** (data props computed methods watch....)
+-  **生命周期选项** (beforeCreate created beforeMount mounted ....)
+-  **组合选项** (provide inject mixins extends )
+-  **组件实例** ($refs $nextTick $data $props $el....)
+-  **其他杂项** (name components directives ....)
+
+<style>
+h2 {
+  background-color: #2B90B6;
+  font-size:22px;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+
+# 状态选项
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  text-align: center;
+  line-height: 10 !important;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: slide-up
+---
+## data
+
+用于声明组件初始响应式状态的函数
+
 ```ts
-<script>
+
 export default {
-  // data() 返回的属性将会成为响应式的状态  
-  // 并且暴露在 `this` 上
   data() {
-    return { count: 0 }
+    return { a: 1 }
   },
-  // methods 是一些用来更改状态与触发更新的函数
-  // 它们可以在模板中作为事件监听器绑定
-  methods: {
-    increment() { this.count++ }
-  },
-  // 生命周期钩子会在组件生命周期的各个不同阶段被调用
-  // 例如这个函数就会在组件挂载完成后被调用
-  mounted() {
-    console.log(`The initial count is ${this.count}.`)
+  created() {
+    console.log(this.a) // 1
+    console.log(this.$data) // { a: 1 }
   }
 }
-</script>
 
 ```
 
@@ -194,287 +230,425 @@ h2 {
 </style>
 
 ---
-layout: image-right
-image: https://source.unsplash.com/collection/94734566/1920x1080
+transition: slide-up
 ---
-## 组合式 API (Composition API)
+## props
 
-```ts
-interface User {
-  id: number
-  firstName: string
-  lastName: string
-  role: string
-}
-
-function updateUser(id: number, update: User) {
-  const user = getUser(id)
-  const newUser = { ...user, ...update }
-  saveUser(id, newUser)
-}
-```
-
-<style>
-h2 {
-  background-color: #2B90B6;
-  font-size:22px;
-  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-</style>
-
----
-
-# Components
-
-<div grid="~ cols-2 gap-4">
-<div>
-
-You can use Vue components directly inside your slides.
-
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
-
-```html
-<Counter :count="10" />
-```
-
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
-
-</div>
-<div>
-
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
-
-</div>
-</div>
-
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
-
-
----
-class: px-20
----
-
-# Themes
-
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
+用于声明一个组件的 props。
 
 <div grid="~ cols-2 gap-2" m="-t-2">
 
-```yaml
----
-theme: default
----
+```ts
+// 简易声明
+
+export default {
+  props: ['size', 'myMessage']
+}
+
 ```
 
-```yaml
+```ts
+// 对象声明，带有验证
+
+export default {
+  props: {
+    // 类型检查
+    height: Number,
+    // 类型检查 + 其他验证
+    age: {
+      type: Number,
+      default: 0,
+      required: true,
+      validator: (value) => {
+        return value >= 0
+      }
+    }
+  }
+}
+
+```
+</div>
+
+<style>
+h2 {
+  background-color: #2B90B6;
+  font-size:22px;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
 ---
-theme: seriph
----
+
+# emits
+
+用于声明由组件触发的自定义事件。
+
+```ts
+
+export default {
+  emits: ['check'],
+  created() {
+    this.$emit('check')
+  }
+}
+
 ```
 
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true">
+---
+transition: slide-up
+---
 
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true">
+## computed
+
+用于声明要在组件实例上暴露的计算属性。
+
+<div>
+
+```ts
+export default {
+  data() {
+    return { a: 1 }
+  },
+  computed: {
+    aDouble() { // 只读
+      return this.a * 2
+    },
+    aPlus: { // 可写
+      get() {
+        return this.a + 1
+      },
+      set(v) {
+        this.a = v - 1
+      }
+    }
+  },
+  created() {
+    console.log(this.aDouble) // => 2
+    console.log(this.aPlus) // => 2
+    this.aPlus = 3
+    console.log(this.a) // => 2
+    console.log(this.aDouble) // => 4
+  }
+}
+
+```
+</div>
+
+---
+
+## methods
+
+用于声明要混入到组件实例中的方法
+
+<div>
+
+
+```ts
+
+export default {
+  data() {
+    return { a: 1 }
+  },
+  methods: {
+    plus() {
+      this.a++
+    }
+  },
+  created() {
+    this.plus()
+    console.log(this.a) // => 2
+  }
+}
+
+```
+</div>
+
+---
+layout: image-right
+image: https://cn.vuejs.org/assets/lifecycle.16e4c08e.png
+---
+# 生命周期选项
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  text-align: center;
+  line-height: 10 !important;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+---
+
+# beforeCreate
+<div>
+会在实例初始化完成、props 解析之后、data() 和 computed 等选项处理之前立即调用。
+
+注意，组合式 API 中的 setup() 钩子会在所有选项式 API 钩子之前调用，beforeCreate() 也不例外。
+</div>
+
+# created
+<div>
+当这个钩子被调用时，以下内容已经设置完成：响应式数据、计算属性、方法和侦听器。然而，此时挂载阶段还未开始，因此 $el 属性仍不可用。
+</div>
+
+---
+
+# beforeMount
+<div>
+当这个钩子被调用时，组件已经完成了其响应式状态的设置，但还没有创建 DOM 节点。它即将首次执行 DOM 渲染过程。
+</div>
+
+# mounted
+<div>
+在组件被挂载之后调用。
+
+这个钩子通常用于执行需要访问组件所渲染的 DOM 树相关的副作用
+</div>
+
+---
+layout: image-right
+image: https://img2018.cnblogs.com/blog/1241025/201902/1241025-20190216100154238-1712062934.png
+---
+# 内置指令
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  text-align: center;
+  line-height: 10 !important;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+
+# v-show
+
+v-show 通过设置内联样式的 display CSS 属性来工作，当元素可见时将使用初始 display 值。当条件改变时，也会触发过渡效果。
+
+```ts
+
+<h1 v-show="true">Hello!</h1>
+
+```
+
+# v-if
+
+基于表达式值的真假性，来条件性地渲染元素或者模板片段。
+
+```ts
+
+<h1 v-if="true">Hello!</h1>
+
+```
+
+# v-for
+
+基于原始数据多次渲染元素或模板块。
+v-for 的默认方式是尝试就地更新元素而不移动它们。要强制其重新排序元素，你需要用特殊 attribute key 来提供一个排序提示
+
+```ts
+
+<div v-for="item in items" :key="item.id">
+  {{ item.text }}
+</div>
+
+```
+
+---
+
+# v-if & v-else & v-else-if
+
+三者可以进行链式调用
+
+```ts 
+
+<div v-if="type === 'A'">
+  A
+</div>
+<div v-else-if="type === 'B'">
+  B
+</div>
+<div v-else-if="type === 'C'">
+  C
+</div>
+<div v-else>
+  Not A/B/C
+</div>
+
+
+```
+
+---
+
+# v-on
+给元素绑定事件监听器。（缩写：@）
+
+<div grid="~ cols-2 gap-2" m="-t-2">
+
+<div>
+
+```ts
+<button v-on:click="doThis"></button>
+
+<!-- 监听点击 -->
+<button @click="doThis"></button>
+
+<!-- 监听键盘 -->
+<input @keyup="onEnter" />
+
+<!-- 停止传播 -->
+<button @click.stop="doThis"></button>
+
+<!-- 阻止默认事件 -->
+<button @click.prevent="doThis"></button>
+
+<!-- 不带表达式地阻止默认事件 -->
+<form @submit.prevent></form>
+
+<!-- 链式调用修饰符 -->
+<button @click.stop.prevent="doThis"></button>
+
+
+```
+</div>
+
+<div>
+
+```ts
+.stop - 调用 event.stopPropagation()。
+.prevent - 调用 event.preventDefault()。
+.capture - 在捕获模式添加事件监听器。
+.self - 只有事件从元素本身发出才触发处理函数。
+.{keyAlias} - 只在某些按键下触发处理函数。
+.once - 最多触发一次处理函数。
+.left - 只在鼠标左键事件触发处理函数。
+.right - 只在鼠标右键事件触发处理函数。
+.middle - 只在鼠标中键事件触发处理函数。
+.passive - 通过 { passive: true } 附加一个 DOM 事件。
+
+```
+</div>
 
 </div>
 
-Read more about [How to use a theme](https://sli.dev/themes/use.html) and
-check out the [Awesome Themes Gallery](https://sli.dev/themes/gallery.html).
-
----
-preload: false
 ---
 
-# Animations
+# v-bind
 
-Animations are powered by [@vueuse/motion](https://motion.vueuse.org/).
+动态的绑定一个或多个 attribute，也可以是组件的 prop。 (缩写 : 或者 .)
+
+<div grid="~ cols-2 gap-2" m="-t-2">
+<div>
+
+```ts
+  <!-- 绑定 attribute -->
+  <img v-bind:src="imageSrc" />
+  <!-- 缩写 -->
+  <img :src="imageSrc" />
+  <!-- 绑定对象形式的 attribute -->
+  <div v-bind="{ id: someProp}"></div>
+  <!-- class 绑定 -->
+  <div :class="{ red: isRed }"></div>
+  <div :class="[classA, classB]"></div>
+  <div :class="[classA, { classB: isB}]"></div>
+  <!-- style 绑定 -->
+  <div :style="{ fontSize: size + 'px' }"></div>
+  <div :style="[styleObjectA, styleObjectB]"></div>
+
+```
+</div>
+
+<div>
+
+```ts
+<!-- prop 绑定。“prop” 必须在子组件中已声明。 -->
+<MyComponent :prop="someThing" />
+
+<!-- 传递子父组件共有的 prop -->
+<MyComponent v-bind="$props" />
+
+```
+</div>
+
+</div>
+
+---
+
+# v-model
+
+在表单输入元素或组件上创建双向绑定。
+
+```ts
+// 仅限于
+<input>
+<select>
+<textarea>
+...
+components
+
+```
+
+```ts
+
+<input v-model="searchText" />
+
+// 等同于
+<input
+  :value="searchText"
+  @input="searchText = $event.target.value"
+/>
+// 自定义组件实现双向绑定
+<CustomInput
+  v-model="searchText"
+/>
+<CustomInput
+  :value="searchText"
+  @input="newValue => searchText = newValue"
+/>
+
+```
+---
+
+# 回顾
+
+- **vue 是什么**
+- **声明式渲染**
+- **选项式 API**
+- **Attribute 绑定**
+- **事件监听**
+- **表单绑定以及双向绑定**
+- **条件渲染**
+- **列表渲染**
+- **计算属性**
+- **生命周期函数**
+- **Props**
+- **Emits**
+
+<!-- https://cn.vuejs.org/examples/#hello-world -->
+
+---
+
+# 实现todoList
 
 ```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }">
-  Slidev
-</div>
+<TodoList :todoList="['默认任务']" />
 ```
 
-<div class="w-60 relative mt-6">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-square.png"
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-circle.png"
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-triangle.png"
-    />
-  </div>
-
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
-</div>
-
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
-
-<div
-  v-motion
-  :initial="{ x:35, y: 40, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
-
-[Learn More](https://sli.dev/guide/animations.html#motion)
-
-</div>
-
----
-
-# LaTeX
-
-LaTeX is supported out-of-box powered by [KaTeX](https://katex.org/).
-
-<br>
-
-Inline $\sqrt{3x-1}+(1+x)^2$
-
-Block
-$$
-\begin{array}{c}
-
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-
-\nabla \cdot \vec{\mathbf{B}} & = 0
-
-\end{array}
-$$
-
-<br>
-
-[Learn more](https://sli.dev/guide/syntax#latex)
-
----
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-3 gap-10 pt-4 -mb-6">
-
-```mermaid {scale: 0.5}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-```plantuml {scale: 0.7}
-@startuml
-
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
-
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
-
-cloud {
-  [Example 1]
-}
-
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
-}
-
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
-```
-
-</div>
-
-[Learn More](https://sli.dev/guide/syntax.html#diagrams)
-
----
-src: ./pages/multiple-entries.md
-hide: false
----
-
----
-layout: center
-class: text-center
----
-
-# Learn More
-
-[Documentations](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/showcases.html)
+<!-- ./components/TodoList.vue -->
+<TodoList :todoList="['默认任务']"/>
