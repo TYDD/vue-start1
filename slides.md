@@ -142,14 +142,6 @@ Vue 的组件可以按两种不同的风格书写
 | <kbd>选项式 API (Options API)</kbd> | 选项所定义的属性都会暴露在函数内部的 this 上，它会指向当前的组件实例。 |
 | <kbd>组合式 API (Composition API) </kbd> | 通过组合式 API，可以使用导入的 API 函数来描述组件逻辑。 |
 
-<!-- https://sli.dev/guide/animations.html#click-animations -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
-
 ---
 layout: image-right
 image: https://source.unsplash.com/collection/94734566/1920x1080
@@ -652,3 +644,12 @@ components
 
 <!-- ./components/TodoList.vue -->
 <TodoList :todoList="['默认任务']"/>
+
+---
+layout: center
+class: text-center
+---
+
+# Learn More
+
+[Vue API](https://cn.vuejs.org/api) · [Playground](https://sfc.vuejs.org/) 
